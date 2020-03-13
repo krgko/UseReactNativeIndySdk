@@ -7,13 +7,13 @@
  */
 
 import React from 'react'
-import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Button } from 'react-native'
+import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Button, ToastAndroid } from 'react-native'
 
 import indy from 'rn-indy-sdk'
 
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 
-const App: () => React$Node = () => {
+const App = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -33,6 +33,9 @@ const App: () => React$Node = () => {
             <View style={styles.sectionContainer}>
               <Button title="Delete wallet" onPress={deleteWallet} />
             </View>
+            <View style={styles.sectionContainer}>
+              <Button title="DID wallet" onPress={DIDWallet} />
+            </View>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -44,27 +47,58 @@ let walletHandle
 
 async function createWallet() {
   console.log('createWallet onPress')
-  const result = await indy.createWallet({ id: 'wallet-123' }, { key: 'key' })
-  console.log('result', result)
+  try {
+    const result = await indy.createWallet({ id: 'wallet-1234' }, { key: 'key' })
+    console.log('result', result)
+    ToastAndroid.showWithGravityAndOffset(`The result is ${result}`, ToastAndroid.LONG, ToastAndroid.BOTTOM, 25, 50)
+  } catch (e) {
+    console.warn(e)
+  }
 }
 
 async function openWallet() {
-  console.log('openWallet onPress')
-  const result = await indy.openWallet({ id: 'wallet-123' }, { key: 'key' })
-  walletHandle = result
-  console.log('result', result)
+  try {
+    console.log('openWallet onPress')
+    const result = await indy.openWallet({ id: 'wallet-1234' }, { key: 'key' })
+    walletHandle = result
+    console.log('result', result)
+    ToastAndroid.showWithGravityAndOffset(`The result is ${result}`, ToastAndroid.LONG, ToastAndroid.BOTTOM, 25, 50)
+  } catch (e) {
+    console.warn(e)
+  }
 }
 
 async function closeWallet() {
   console.log('closeWallet onPress')
-  const result = await indy.closeWallet(walletHandle)
-  console.log('result', result)
+  try {
+    const result = await indy.closeWallet(walletHandle)
+    console.log('result', result)
+    ToastAndroid.showWithGravityAndOffset(`The result is ${result}`, ToastAndroid.LONG, ToastAndroid.BOTTOM, 25, 50)
+  } catch (e) {
+    console.warn(e)
+  }
 }
 
 async function deleteWallet() {
   console.log('deleteWallet onPress')
-  const result = await indy.deleteWallet({ id: 'wallet-123' }, { key: 'key' })
-  console.log('result', result)
+  try {
+    const result = await indy.deleteWallet({ id: 'wallet-1234' }, { key: 'key' })
+    console.log('result', result)
+    ToastAndroid.showWithGravityAndOffset(`The result is ${result}`, ToastAndroid.LONG, ToastAndroid.BOTTOM, 25, 50)
+  } catch (e) {
+    console.warn(e)
+  }
+}
+
+async function DIDWallet() {
+  console.log('getDIDWallet onPress')
+  try {
+    const result = await indy.createAndStoreMyDid(walletHandle, {})
+    console.log('result', result)
+    ToastAndroid.showWithGravityAndOffset(`The result is ${result}`, ToastAndroid.LONG, ToastAndroid.BOTTOM, 25, 50)
+  } catch (e) {
+    console.warn(e)
+  }
 }
 
 const styles = StyleSheet.create({
